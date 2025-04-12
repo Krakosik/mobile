@@ -1,11 +1,11 @@
 package com.pawlowski.network.di
 
-import com.pawlowski.network.IEkgDataProvider
+import com.pawlowski.network.IEventsDataProvider
 import com.pawlowski.network.channel.GetGrpcChannelUseCase
 import com.pawlowski.network.channel.IGetGrpcChannelUseCase
-import com.pawlowski.network.dataProvider.EkgDataProvider
-import com.pawlowski.network.service.EkgServiceProvider
-import com.pawlowski.network.service.IEkgServiceProvider
+import com.pawlowski.network.dataProvider.EventsDataProvider
+import com.pawlowski.network.service.EventsServiceProvider
+import com.pawlowski.network.service.IEventsServiceProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,8 +18,8 @@ internal abstract class NetworkModuleBinds {
     abstract fun getGrpcChannelUseCase(getGrpcChannelUseCase: GetGrpcChannelUseCase): IGetGrpcChannelUseCase
 
     @Binds
-    abstract fun ekgServiceProvider(ekgServiceProvider: EkgServiceProvider): IEkgServiceProvider
+    abstract fun eventsServiceProvider(eventsServiceProvider: EventsServiceProvider): IEventsServiceProvider
 
     @Binds
-    abstract fun ekgDataProvider(ekgDataProvider: EkgDataProvider): IEkgDataProvider
+    abstract fun eventsDataProvider(eventsDataProvider: EventsDataProvider): IEventsDataProvider
 }

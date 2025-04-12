@@ -1,29 +1,29 @@
 package com.pawlowski.network.service
 
-import ElectrocardiogramGrpcKt
 import com.pawlowski.network.channel.IGetGrpcChannelUseCase
+import events.EventServiceGrpcKt
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class EkgServiceProvider
+internal class EventsServiceProvider
     @Inject
     constructor(
         private val getGrpcChannelUseCase: IGetGrpcChannelUseCase,
-    ) : IEkgServiceProvider {
-        private var service: ElectrocardiogramGrpcKt.ElectrocardiogramCoroutineStub? = null
+    ) : IEventsServiceProvider {
+        private var service: EventServiceGrpcKt.EventServiceCoroutineStub? = null
 
         private val mutex = Mutex()
 
-        override suspend operator fun invoke(): ElectrocardiogramGrpcKt.ElectrocardiogramCoroutineStub =
+        override suspend operator fun invoke(): EventServiceGrpcKt.EventServiceCoroutineStub =
             mutex.withLock {
                 getGrpcChannelUseCase(
-                    url = "grpc://node01.solidchat.io",
+                    url = "node01.solidchat.io",
                     port = 3001,
                 ).let { channel ->
-                    ElectrocardiogramGrpcKt.ElectrocardiogramCoroutineStub(channel)
+                    EventServiceGrpcKt.EventServiceCoroutineStub(channel)
                 }.also {
                     service = it
                 }
