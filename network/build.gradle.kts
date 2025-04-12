@@ -54,4 +54,6 @@ dependencies {
     implementation(libs.bundles.grpc)
     implementation(platform(libs.org.jetbrains.kotlinx.kotlinx.serialization.bom))
     implementation(libs.bundles.serialization)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }

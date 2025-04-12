@@ -1,6 +1,7 @@
 [versions]
 accompanist-permissions = "0.30.1"
 agp = "8.9.1"
+firebase-bom = "33.12.0"
 firebase-messaging = "24.1.1"
 kotlin = "2.0.21"
 core-ktx = "1.16.0"
@@ -31,6 +32,7 @@ hilt-workmanager = "1.2.0"
 
 kotlinx-datetime = "0.6.0-RC.2"
 kotlinx-collections-immutable = "0.3.7"
+google-gms-google-services = "4.4.2"
 
 
 [libraries]
@@ -39,6 +41,8 @@ androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-ru
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebase-messaging" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -103,6 +107,7 @@ org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.re
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-protobuf = { id = "com.google.protobuf", version.ref = "proto" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "google-gms-google-services" }
 
 [bundles]
 grpc = ["io-grpc-grpc-android", "io-grpc-grpc-okhttp", "io-grpc-grpc-protobuf-lite", "io-grpc-grpc-stub", "io-grpc-grpc-kotlin-stub"]

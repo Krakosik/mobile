@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "626855359024",
+    "project_id": "krakosik-db50d",
+    "storage_bucket": "krakosik-db50d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626855359024:android:74a7438ae1bb84536273f5",
+        "android_client_info": {
+          "package_name": "com.pawlowski.krakosik2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8w-aZihIt9jdJWkzcQA8oy-S5MKqFAPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

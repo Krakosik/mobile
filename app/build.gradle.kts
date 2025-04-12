@@ -18,6 +18,7 @@ plugins {
     )
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -66,6 +67,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(platform(libs.compose.bom))
@@ -91,4 +93,6 @@ dependencies {
 
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.datetime)
+
+    implementation(platform(libs.firebase.bom))
 }
