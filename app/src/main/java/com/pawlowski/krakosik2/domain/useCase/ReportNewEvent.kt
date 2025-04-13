@@ -17,6 +17,5 @@ internal class ReportNewEvent
                 lat = location.latitude,
                 lon = location.longitude,
             )
-            println("Event reported $eventType ${location.latitude} ${location.longitude}")
         }
     }

@@ -2,6 +2,7 @@ package com.pawlowski.krakosik2.domain.useCase
 
 import android.location.Location
 import com.pawlowski.krakosik2.domain.model.NearbyEvent
+import com.pawlowski.krakosik2.retryEverySecond
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -29,5 +30,5 @@ internal class StreamNearbyEvent
                                 event = event,
                             )
                         }.minByOrNull { it.distanceKm }
-                }
+                }.retryEverySecond()
     }

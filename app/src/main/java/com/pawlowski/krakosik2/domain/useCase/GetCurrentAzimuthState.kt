@@ -6,6 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.core.content.ContextCompat.getSystemService
+import com.pawlowski.krakosik2.retryEverySecond
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -63,6 +64,7 @@ internal class GetCurrentAzimuthState
                     null
                 }
             }.distinctUntilChanged()
+                .retryEverySecond()
                 .stateIn(
                     scope = scope,
                     started = SharingStarted.WhileSubscribed(5000),

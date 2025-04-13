@@ -8,7 +8,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.seconds
 
 fun <T> Flow<T>.throttle(waitMillis: Int) =
     flow {
@@ -38,4 +40,10 @@ fun <T> Flow<T>.throttle(waitMillis: Int) =
                 }
             }
         }
+    }
+
+fun <T> Flow<T>.retryEverySecond() =
+    retry {
+        delay(1.seconds)
+        true
     }

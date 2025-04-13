@@ -3,6 +3,7 @@ package com.pawlowski.krakosik2.domain.useCase
 import android.annotation.SuppressLint
 import android.location.Location
 import com.pawlowski.krakosik2.LocationHandler
+import com.pawlowski.krakosik2.retryEverySecond
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,6 +27,7 @@ internal class GetCurrentLocationState
             locationHandler
                 .streamLocation()
                 .map { it.lastLocation }
+                .retryEverySecond()
                 .stateIn(
                     scope = scope,
                     started = SharingStarted.WhileSubscribed(5000),
