@@ -23,22 +23,25 @@ internal class EventsServiceProvider
         override suspend operator fun invoke(): EventServiceGrpcKt.EventServiceCoroutineStub =
             mutex
                 .withLock {
-                    service ?: getGrpcChannelUseCase(
-                        url = "node01.solidchat.io",
-                        port = 3001,
-                    ).let { channel ->
-                        EventServiceGrpcKt.EventServiceCoroutineStub(channel)
-                    }.also {
-                        service = it
-                    }.addTokenHeader(
-                        token =
-                            FirebaseAuth
-                                .getInstance()
-                                .currentUser
-                                ?.getIdToken(false)
-                                ?.await()
-                                ?.token
-                                .also { println("Token: $it") } ?: "",
-                    )
-                }
+                    service ?: createNewService()
+                }.addTokenHeader(
+                    token =
+                        FirebaseAuth
+                            .getInstance()
+                            .currentUser
+                            ?.getIdToken(false)
+                            ?.await()
+                            ?.token
+                            .also { println("Token: $it") } ?: "",
+                )
+
+        private fun createNewService(): EventServiceGrpcKt.EventServiceCoroutineStub =
+            getGrpcChannelUseCase(
+                url = "node01.solidchat.io",
+                port = 3001,
+            ).let { channel ->
+                EventServiceGrpcKt.EventServiceCoroutineStub(channel)
+            }.also {
+                service = it
+            }
     }
