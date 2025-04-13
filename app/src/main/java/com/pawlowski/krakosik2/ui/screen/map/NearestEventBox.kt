@@ -1,6 +1,5 @@
 package com.pawlowski.krakosik2.ui.screen.map
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,9 +15,6 @@ import androidx.compose.material.icons.filled.Traffic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.pawlowski.krakosik2.domain.model.NearbyEvent
 import com.pawlowski.krakosik2.domain.model.distanceText
 import com.pawlowski.network.EventType
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun NearestEventBox(
@@ -37,17 +32,6 @@ internal fun NearestEventBox(
     angle: () -> Float?,
     modifier: Modifier = Modifier,
 ) {
-    val animatedAngle =
-        remember {
-            Animatable(initialValue = 0f)
-        }
-    LaunchedEffect(Unit) {
-        snapshotFlow {
-            angle()
-        }.collectLatest {
-            animatedAngle.animateTo(targetValue = it ?: 0f)
-        }
-    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
