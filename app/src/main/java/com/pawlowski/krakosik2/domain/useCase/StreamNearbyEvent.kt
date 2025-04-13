@@ -25,9 +25,9 @@ internal class StreamNearbyEvent
                                 results,
                             )
                             NearbyEvent(
-                                distance = results[0].toBigDecimal().movePointLeft(3),
+                                distanceKm = results[0].toBigDecimal().movePointLeft(3),
                                 event = event,
                             )
-                        }.minByOrNull { it.distance }
+                        }.minByOrNull { it.distanceKm }
                 }
     }
