@@ -81,7 +81,7 @@ internal fun NearestEventBox(
     }
 }
 
-private fun EventType.toIcon() =
+internal fun EventType.toIcon() =
     when (this) {
         EventType.POLICE_CHECK -> Icons.Default.LocalPolice
         EventType.ACCIDENT -> Icons.Default.CarCrash
