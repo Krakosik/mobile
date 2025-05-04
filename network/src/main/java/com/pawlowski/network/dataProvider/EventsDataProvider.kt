@@ -7,6 +7,7 @@ import com.pawlowski.network.LocationUpdate
 import com.pawlowski.network.service.IEventsServiceProvider
 import events.EventServiceGrpcKt
 import events.ReportEventRequest
+import events.VoteEventRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
@@ -40,6 +41,7 @@ internal class EventsDataProvider
                         latitude = eventDto.latitude,
                         longitude = eventDto.longitude,
                         votes = eventDto.votes,
+                        canVote = true, // TODO: Get from backend when ready
                     )
                 }
             }
@@ -57,6 +59,21 @@ internal class EventsDataProvider
                         .setLatitude(lat)
                         .setLongitude(lon)
                         .setType(EventTypeDto.valueOf(type.name))
+                        .build(),
+            )
+        }
+
+        override suspend fun voteForEvent(
+            eventId: Int,
+            upVote: Boolean,
+        ) {
+            withUnaryService(
+                method = EventServiceGrpcKt.EventServiceCoroutineStub::voteEvent,
+                request =
+                    VoteEventRequest
+                        .newBuilder()
+                        .setEventId(eventId)
+                        .setUpvote(upVote)
                         .build(),
             )
         }

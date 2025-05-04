@@ -6,6 +6,7 @@ data class Event(
     val latitude: Double,
     val longitude: Double,
     val votes: Int,
+    val canVote: Boolean,
 )
 
 enum class EventType {

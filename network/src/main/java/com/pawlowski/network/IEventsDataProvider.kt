@@ -10,4 +10,9 @@ interface IEventsDataProvider {
         lon: Double,
         type: EventType,
     )
+
+    suspend fun voteForEvent(
+        eventId: Int,
+        upVote: Boolean,
+    )
 }
