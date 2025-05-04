@@ -28,11 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.rememberCameraPositionState
 import com.pawlowski.krakosik2.ui.WrapLocationPermission
+import com.pawlowski.krakosik2.ui.component.GeoMap
 import com.pawlowski.krakosik2.ui.screen.chooseEventType.ChooseEventTypeBottomSheet
 import com.pawlowski.network.Event
 
@@ -52,15 +49,10 @@ internal fun MapScreen() {
                     angle = angleToNearestEvent::value,
                 )
             }
-
-            val singapore = LatLng(1.35, 103.87)
-            val cameraPositionState =
-                rememberCameraPositionState {
-                    position = CameraPosition.fromLatLngZoom(singapore, 10f)
-                }
-            GoogleMap(
+            val currentLocation = viewModel.currentLocation.collectAsState()
+            GeoMap(
+                mapPosition = currentLocation::value,
                 modifier = Modifier.weight(weight = 1f),
-                cameraPositionState = cameraPositionState,
             )
 
             val showBottomSheet =

@@ -3,8 +3,10 @@ package com.pawlowski.krakosik2.ui.screen.map
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import com.pawlowski.krakosik2.domain.useCase.EventVotingUseCase
 import com.pawlowski.krakosik2.domain.useCase.GetAngleToNearbyEvent
+import com.pawlowski.krakosik2.domain.useCase.GetCurrentLocationState
 import com.pawlowski.krakosik2.domain.useCase.ReportNewEvent
 import com.pawlowski.krakosik2.domain.useCase.StreamNearbyEvent
 import com.pawlowski.network.EventType
@@ -35,10 +37,23 @@ internal class MapViewModel
         private val streamNearbyEvent: StreamNearbyEvent,
         private val getAngleToNearbyEvent: GetAngleToNearbyEvent,
         private val eventVotingUseCase: EventVotingUseCase,
+        private val getCurrentLocationState: GetCurrentLocationState,
     ) : ViewModel() {
         val nearbyEvent by lazy {
             streamNearbyEvent()
                 .stateIn(
+                    scope = viewModelScope,
+                    started = WhileSubscribed(5000),
+                    initialValue = null,
+                )
+        }
+
+        val currentLocation by lazy {
+            getCurrentLocationState()
+                .map {
+                    it ?: return@map null
+                    LatLng(it.latitude, it.longitude)
+                }.stateIn(
                     scope = viewModelScope,
                     started = WhileSubscribed(5000),
                     initialValue = null,
