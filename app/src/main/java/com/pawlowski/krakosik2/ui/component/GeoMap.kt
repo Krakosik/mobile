@@ -12,12 +12,14 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.pawlowski.network.Event
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun GeoMap(
     mapPosition: () -> LatLng?,
+    events: () -> List<Event>,
     modifier: Modifier = Modifier,
 ) {
     val polandLocation = LatLng(52.0, 20.0)
@@ -58,5 +60,11 @@ fun GeoMap(
             },
         cameraPositionState = cameraPositionState,
         modifier = modifier,
-    )
+    ) {
+        events().forEach { event ->
+            CustomMapMarker(
+                event = event,
+            )
+        }
+    }
 }

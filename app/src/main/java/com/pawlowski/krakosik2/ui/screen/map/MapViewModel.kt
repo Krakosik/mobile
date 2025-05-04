@@ -8,6 +8,7 @@ import com.pawlowski.krakosik2.domain.useCase.EventVotingUseCase
 import com.pawlowski.krakosik2.domain.useCase.GetAngleToNearbyEvent
 import com.pawlowski.krakosik2.domain.useCase.GetCurrentLocationState
 import com.pawlowski.krakosik2.domain.useCase.ReportNewEvent
+import com.pawlowski.krakosik2.domain.useCase.StreamEventsForCurrentLocation
 import com.pawlowski.krakosik2.domain.useCase.StreamNearbyEvent
 import com.pawlowski.network.EventType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,10 +36,22 @@ internal class MapViewModel
     constructor(
         private val reportNewEvent: ReportNewEvent,
         private val streamNearbyEvent: StreamNearbyEvent,
+        private val streamEventsForCurrentLocation: StreamEventsForCurrentLocation,
         private val getAngleToNearbyEvent: GetAngleToNearbyEvent,
         private val eventVotingUseCase: EventVotingUseCase,
         private val getCurrentLocationState: GetCurrentLocationState,
     ) : ViewModel() {
+        val allEvents by lazy {
+            streamEventsForCurrentLocation()
+                .map {
+                    it.second
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = WhileSubscribed(5000),
+                    initialValue = emptyList(),
+                )
+        }
+
         val nearbyEvent by lazy {
             streamNearbyEvent()
                 .stateIn(

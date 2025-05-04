@@ -50,8 +50,10 @@ internal fun MapScreen() {
                 )
             }
             val currentLocation = viewModel.currentLocation.collectAsState()
+            val events = viewModel.allEvents.collectAsState()
             GeoMap(
                 mapPosition = currentLocation::value,
+                events = events::value,
                 modifier = Modifier.weight(weight = 1f),
             )
 
