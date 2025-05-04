@@ -19,6 +19,11 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets)
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
 }
 
 android {
@@ -96,4 +101,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     implementation(platform(libs.firebase.bom))
+
+    implementation(libs.maps.compose)
+    runtimeOnly("org.jetbrains.kotlin:kotlin-metadata-jvm:2.1.0")
 }

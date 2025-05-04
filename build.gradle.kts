@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.google.gms.google.services) apply false
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets)
 }
 
 buildscript {

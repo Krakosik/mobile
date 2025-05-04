@@ -27,23 +27,23 @@ internal class GetCurrentAzimuthState
     ) : SensorEventListener {
         private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-        private val sensorManager: SensorManager by lazy {
+        private val sensorManager: SensorManager? by lazy {
             getSystemService(context, SensorManager::class.java)
         }
 
         private val accelerometer: Sensor? by lazy {
-            sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+            sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         }
 
         private val magneticField: Sensor? by lazy {
-            sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+            sensorManager?.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
         }
 
         private val azymuthState: StateFlow<Float?> by lazy {
             val accelerometerFlow =
-                accelerometer?.let { sensorManager.eventsFlow(it) } ?: return@lazy MutableStateFlow(null)
+                accelerometer?.let { sensorManager?.eventsFlow(it) } ?: return@lazy MutableStateFlow(null)
             val magneticFieldFLow =
-                magneticField?.let { sensorManager.eventsFlow(it) } ?: return@lazy MutableStateFlow(null)
+                magneticField?.let { sensorManager?.eventsFlow(it) } ?: return@lazy MutableStateFlow(null)
             combine(
                 accelerometerFlow,
                 magneticFieldFLow,

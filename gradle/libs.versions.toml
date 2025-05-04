@@ -1,9 +1,9 @@
 [versions]
 accompanist-permissions = "0.30.1"
-agp = "8.9.1"
+agp = "8.9.2"
 firebase-bom = "33.12.0"
 firebase-messaging = "24.1.1"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 core-ktx = "1.16.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.2.1"
@@ -11,7 +11,8 @@ espresso-core = "3.6.1"
 lifecycle-runtime-ktx = "2.8.7"
 activity-compose = "1.10.1"
 compose-bom = "2025.04.00"
-hilt = "2.49"
+hilt = "2.56"
+maps-compose = "6.6.0"
 material-icons-extended = "1.7.8"
 retrofit = "2.9.0"
 kable = "0.27.0"
@@ -19,6 +20,7 @@ proto = "0.9.4"
 io-grpc = "1.57.2"
 io-grpc-kotlin = "1.3.0"
 io-grpc-kotlin-jar = "1.3.0:jdk8@jar"
+secrets = "2.0.0"
 
 navigation-compose = "2.8.9"
 navigation-activity-compose = "1.10.1"
@@ -52,6 +54,7 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -112,6 +115,8 @@ com-google-protobuf = { id = "com.google.protobuf", version.ref = "proto" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "google-gms-google-services" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+com-google-android-libraries-mapsplatform-secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+
 
 [bundles]
 grpc = ["io-grpc-grpc-android", "io-grpc-grpc-okhttp", "io-grpc-grpc-protobuf-lite", "io-grpc-grpc-stub", "io-grpc-grpc-kotlin-stub"]
