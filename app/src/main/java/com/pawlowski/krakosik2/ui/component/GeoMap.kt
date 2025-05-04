@@ -25,7 +25,7 @@ fun GeoMap(
     val polandLocation = LatLng(52.0, 20.0)
     val cameraPositionState =
         rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(polandLocation, 15f)
+            position = CameraPosition.fromLatLngZoom(polandLocation, 15.5f)
         }
     LaunchedEffect(Unit) {
         snapshotFlow {

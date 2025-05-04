@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pawlowski.krakosik2.ui.WrapLocationPermission
 import com.pawlowski.krakosik2.ui.component.GeoMap
+import com.pawlowski.krakosik2.ui.component.MapScaffold
 import com.pawlowski.krakosik2.ui.screen.chooseEventType.ChooseEventTypeBottomSheet
 import com.pawlowski.network.Event
 
@@ -41,32 +42,88 @@ internal fun MapScreen() {
             modifier = Modifier.fillMaxWidth(),
         ) {
             val viewModel = hiltViewModel<MapViewModel>()
-            val event by viewModel.nearbyEvent.collectAsStateWithLifecycle()
-            val angleToNearestEvent = viewModel.angleToEvent.collectAsStateWithLifecycle()
-            event?.let {
-                NearestEventBox(
-                    event = it,
-                    angle = angleToNearestEvent::value,
-                )
-            }
-            val currentLocation = viewModel.currentLocation.collectAsState()
-            val events = viewModel.allEvents.collectAsState()
-            GeoMap(
-                mapPosition = currentLocation::value,
-                events = events::value,
-                modifier = Modifier.weight(weight = 1f),
-            )
 
             val showBottomSheet =
                 remember {
                     mutableStateOf(false)
                 }
-            Button(
-                onClick = { showBottomSheet.value = true },
-                enabled = !viewModel.isReportingInProgress.collectAsState().value,
-            ) {
-                Text(text = "Raportuj wydarzenie")
-            }
+            MapScaffold(
+                map = {
+                    val currentLocation = viewModel.currentLocation.collectAsState()
+                    val events = viewModel.allEvents.collectAsState()
+                    GeoMap(
+                        mapPosition = currentLocation::value,
+                        events = events::value,
+                        modifier = Modifier.weight(weight = 1f),
+                    )
+                },
+                nearbyEvent = { modifier ->
+                    val event by viewModel.nearbyEvent.collectAsStateWithLifecycle()
+                    val angleToNearestEvent = viewModel.angleToEvent.collectAsStateWithLifecycle()
+                    event?.let {
+                        NearestEventBox(
+                            event = it,
+                            angle = angleToNearestEvent::value,
+                            modifier = modifier,
+                        )
+                    }
+                },
+                voteDialog = {
+                    val eventToVoteOn by viewModel.eventToVote.collectAsState()
+                    val isVotingInProgress by viewModel.isVotingInProgress.collectAsState()
+                    val showThanYouDialog by viewModel.showThankYouDialog.collectAsState()
+
+                    val showAnyDialog = eventToVoteOn != null || showThanYouDialog || isVotingInProgress
+
+                    AnimatedContent(
+                        targetState = showAnyDialog,
+                    ) { targetShowAnyDialog ->
+                        if (targetShowAnyDialog) {
+                            Surface(
+                                modifier = Modifier.padding(16.dp),
+                                shape = MaterialTheme.shapes.medium,
+                                color = MaterialTheme.colorScheme.surface,
+                                tonalElevation = 8.dp,
+                            ) {
+                                val eventToVote = eventToVoteOn
+                                when {
+                                    isVotingInProgress -> {
+                                        CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
+                                    }
+                                    showThanYouDialog -> {
+                                        Text(
+                                            text = "Dziękujemy za głos! 😍",
+                                            style = MaterialTheme.typography.titleLarge,
+                                            modifier = Modifier.padding(all = 16.dp),
+                                        )
+                                    }
+                                    eventToVote != null -> {
+                                        RecommendationBox(
+                                            event = eventToVote.event,
+                                            onVoteUp = {
+                                                viewModel.voteForEvent(eventId = eventToVote.event.id, isLike = true)
+                                            },
+                                            onVoteDown = {
+                                                viewModel.voteForEvent(eventId = eventToVote.event.id, isLike = false)
+                                            },
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                reportButton = {
+                    Button(
+                        onClick = { showBottomSheet.value = true },
+                        enabled = !viewModel.isReportingInProgress.collectAsState().value,
+                        modifier = it,
+                    ) {
+                        Text(text = "Raportuj wydarzenie")
+                    }
+                },
+            )
+
             if (showBottomSheet.value) {
                 ChooseEventTypeBottomSheet(
                     show = showBottomSheet.value,
@@ -76,49 +133,6 @@ internal fun MapScreen() {
                         showBottomSheet.value = false
                     },
                 )
-            }
-            val eventToVoteOn by viewModel.eventToVote.collectAsState()
-            val isVotingInProgress by viewModel.isVotingInProgress.collectAsState()
-            val showThanYouDialog by viewModel.showThankYouDialog.collectAsState()
-
-            val showAnyDialog = eventToVoteOn != null || showThanYouDialog || isVotingInProgress
-
-            AnimatedContent(
-                targetState = showAnyDialog,
-            ) { targetShowAnyDialog ->
-                if (targetShowAnyDialog) {
-                    Surface(
-                        modifier = Modifier.padding(16.dp),
-                        shape = MaterialTheme.shapes.medium,
-                        color = MaterialTheme.colorScheme.surface,
-                        tonalElevation = 8.dp,
-                    ) {
-                        val eventToVote = eventToVoteOn
-                        when {
-                            isVotingInProgress -> {
-                                CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
-                            }
-                            showThanYouDialog -> {
-                                Text(
-                                    text = "Dziękujemy za głos! 😍",
-                                    style = MaterialTheme.typography.titleLarge,
-                                    modifier = Modifier.padding(all = 16.dp),
-                                )
-                            }
-                            eventToVote != null -> {
-                                RecommendationBox(
-                                    event = eventToVote.event,
-                                    onVoteUp = {
-                                        viewModel.voteForEvent(eventId = eventToVote.event.id, isLike = true)
-                                    },
-                                    onVoteDown = {
-                                        viewModel.voteForEvent(eventId = eventToVote.event.id, isLike = false)
-                                    },
-                                )
-                            }
-                        }
-                    }
-                }
             }
         }
     }
