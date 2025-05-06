@@ -35,9 +35,9 @@ internal class StreamEventsForCurrentLocation
                                 ).also { latestLocationState.value = it }
                             }
                         },
-                ).mapNotNull {
+                ).mapNotNull { events ->
                     val location = latestLocationState.value ?: return@mapNotNull null
-                    location to it
+                    location to events.filter { it.votes > -2 }
                 }.shareIn(
                     scope = scope,
                     started = WhileSubscribed(0),

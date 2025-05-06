@@ -17,6 +17,6 @@ fun CustomMapMarker(event: Event) {
                         event.longitude,
                     ),
             ),
-        title = event.type.name,
+        title = "${event.type.name} (${event.votes})",
     )
 }

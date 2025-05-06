@@ -41,7 +41,7 @@ internal class EventsDataProvider
                         latitude = eventDto.latitude,
                         longitude = eventDto.longitude,
                         votes = eventDto.votes,
-                        canVote = true, // TODO: Get from backend when ready
+                        canVote = eventDto.canVote,
                     )
                 }
             }
