@@ -44,6 +44,7 @@ fun <T> Flow<T>.throttle(waitMillis: Int) =
 
 fun <T> Flow<T>.retryEverySecond() =
     retry {
+        it.printStackTrace()
         delay(1.seconds)
         true
     }

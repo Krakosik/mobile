@@ -37,7 +37,7 @@ internal class EventsServiceProvider
 
         private fun createNewService(): EventServiceGrpcKt.EventServiceCoroutineStub =
             getGrpcChannelUseCase(
-                url = "node01.solidchat.io",
+                url = "srv3.enteam.pl",
                 port = 3001,
             ).let { channel ->
                 EventServiceGrpcKt.EventServiceCoroutineStub(channel)

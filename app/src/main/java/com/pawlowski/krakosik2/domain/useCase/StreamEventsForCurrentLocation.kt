@@ -1,5 +1,6 @@
 package com.pawlowski.krakosik2.domain.useCase
 
+import com.pawlowski.krakosik2.retryEverySecond
 import com.pawlowski.network.Event
 import com.pawlowski.network.IEventsDataProvider
 import com.pawlowski.network.LocationUpdate
@@ -38,7 +39,8 @@ internal class StreamEventsForCurrentLocation
                 ).mapNotNull { events ->
                     val location = latestLocationState.value ?: return@mapNotNull null
                     location to events.filter { it.votes > -2 }
-                }.shareIn(
+                }.retryEverySecond()
+                .shareIn(
                     scope = scope,
                     started = WhileSubscribed(0),
                 )
